@@ -33,7 +33,7 @@ export default function Home() {
                 <Link href="#pricing">Pricing</Link>
                 <Link href="#about">About</Link>
               </nav>
-              <Button className="bg-white text-primary">
+              <Button className="bg-gradient-to-br hover:opacity-80 text-white rounded-full from-[#3352CC] font-medium to-[#1C2D70] text-primary">
                 <Link href="/dashboard">Login</Link>
               </Button>
             </div>

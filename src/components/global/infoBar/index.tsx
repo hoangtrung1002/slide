@@ -13,7 +13,7 @@ import Upgrade from "@/components/global/sidebar/upgrade";
 import CreateAutomation from "../create-automations";
 import Search from "@/components/global/search";
 import Notification from "@/components/global/notification";
-import MainBreadCrumb from "@/components/global/main-bread-crumb";
+import MainBreadCrumb from "../bread-crumbs/main-bread-crumb";
 
 type Props = { slug: string };
 const InfoBar = ({ slug }: Props) => {
