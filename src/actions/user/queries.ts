@@ -7,6 +7,7 @@ export const findUser = async (clerkId: string) => {
     where: { clerkId },
     include: {
       subscription: true,
+
       integrations: {
         select: { id: true, token: true, expiresAt: true, name: true },
       },

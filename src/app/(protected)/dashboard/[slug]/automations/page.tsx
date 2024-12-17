@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
-import CreateAutomation from "@/components/global/create-automations-button";
 import AutomationList from "@/components/global/automation-list";
+import CreateAutomation from "@/components/global/create-automations";
 
 const Page = () => {
   return (
