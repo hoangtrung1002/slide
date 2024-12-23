@@ -4,12 +4,25 @@ import Link from "next/link";
 import { cn, getMonth } from "@/lib/utils";
 import GradientButton from "@/components/global/gradient-button";
 import { Button } from "@/components/ui/button";
-import { useQueryAutomation } from "@/hooks/use-queries";
+import { useQueryAutomations } from "@/hooks/use-queries";
 import CreateAutomation from "@/components/global/create-automations";
+import { useMutationDataState } from "@/hooks/use-mutation-data";
+import { useMemo } from "react";
+import { Keyword } from "@prisma/client";
 
 const AutomationList = () => {
-  const { data } = useQueryAutomation();
+  const { data } = useQueryAutomations();
+  const { latestVariable } = useMutationDataState(["create-automation"]);
   const { pathname } = usePaths();
+
+  const optimisticUiData = useMemo(() => {
+    if (latestVariable && latestVariable?.variables && data) {
+      const result = [latestVariable.variables, ...data.data];
+      return { data: result };
+    }
+    return data || { data: [] };
+  }, [latestVariable, data]);
+
   if (data?.status !== 200 || data.data.length <= 0) {
     return (
       <div className="h-[70vh] flex justify-center items-center flex-col gap-y-3">
@@ -21,7 +34,7 @@ const AutomationList = () => {
 
   return (
     <div className="flex flex-col gap-y-3">
-      {data.data.map((automation) => (
+      {optimisticUiData.data.map((automation) => (
         <Link
           key={automation.id}
           href={`${pathname}/${automation.id}`}
@@ -34,12 +47,12 @@ const AutomationList = () => {
             </p>
             {automation.keywords.length > 0 ? (
               <div className="flex gap-x-2 flex-wrap mt-3">
-                {automation.keywords.map((keyword, key) => (
+                {automation.keywords.map((keyword: Keyword) => (
                   <div
                     key={keyword.id}
                     className={cn(
                       "rounded-full px-4 py-1 capitalize",
-                      (0 + 1) % 1 == 0 &&
+                      1 % 1 == 0 &&
                         "bg-keyword-green/15 border-2 border-keyword-green",
                       (1 + 1) % 2 == 0 &&
                         "bg-keyword-purple/15 border-2 border-keyword-purple",
