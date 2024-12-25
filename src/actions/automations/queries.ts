@@ -47,3 +47,32 @@ export const updateAutomation = async (
     data: { name: update.name },
   });
 };
+
+export const addListener = async (
+  automationId: string,
+  listener: "MESSAGE" | "SMARTAI",
+  prompt: string,
+  reply?: string,
+) => {
+  return client.automation.update({
+    where: { id: automationId },
+    data: { listener: { create: { listener, prompt, commentReply: reply } } },
+  });
+};
+
+export const addTrigger = async (automationId: string, triggers: string[]) => {
+  if (triggers.length === 2) {
+    return client.automation.update({
+      where: { id: automationId },
+      data: {
+        trigger: {
+          createMany: { data: [{ type: triggers[0] }, { type: triggers[1] }] },
+        },
+      },
+    });
+  }
+  return client.automation.update({
+    where: { id: automationId },
+    data: { trigger: { create: { type: triggers[0] } } },
+  });
+};
