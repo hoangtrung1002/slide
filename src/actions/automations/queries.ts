@@ -1,6 +1,7 @@
 "use server";
 
 import { client } from "@/lib/prisma";
+import { PostType } from "@/constant/automation";
 
 export const createAutomation = async (clerkId: string, id?: string) => {
   return client.user.update({
@@ -74,5 +75,33 @@ export const addTrigger = async (automationId: string, triggers: string[]) => {
   return client.automation.update({
     where: { id: automationId },
     data: { trigger: { create: { type: triggers[0] } } },
+  });
+};
+
+export const addKeyword = async (automationId: string, keyword: string) => {
+  return client.automation.update({
+    where: { id: automationId },
+    data: {
+      keywords: { create: { word: keyword } },
+    },
+  });
+};
+
+export const deleteKeywordQuery = async (id: string) => {
+  return client.keyword.delete({ where: { id } });
+};
+
+export const addPost = async (automationId: string, posts: PostType[]) => {
+  return client.automation.update({
+    where: {
+      id: automationId,
+    },
+    data: {
+      posts: {
+        createMany: {
+          data: posts,
+        },
+      },
+    },
   });
 };

@@ -49,3 +49,17 @@ export const AUTOMATION_LISTENERS: AutomationListenerProps[] = [
     type: "SMARTAI",
   },
 ];
+
+export type PostType = {
+  postid: string;
+  caption?: string;
+  media: string;
+  mediaTypes: "IMAGE" | "VIDEO" | "CAROSEL_ALBUM";
+};
+export type InstagramPostProps = {
+  id: string;
+  media_type: "IMAGE" | "VIDEO" | "CAROSEL_ALBUM";
+  media_url: string;
+  timestamp: Date;
+  caption?: string;
+};
